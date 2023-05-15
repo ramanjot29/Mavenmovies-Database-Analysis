@@ -1,0 +1,2 @@
+# Mavenmovies Database Analysis
+ This repository contains my analysis on the Mavenmovies database, which includes various tables such as actor, film, customer, and more. Using MySQL commands and concepts such as JOINS, group by, and subqueries, I have explored and extracted insights from the data. The analysis includes basic to advanced level queries. This project is part of my Data Science coursework and is intended to showcase my skills and knowledge in SQL and data analysis.
