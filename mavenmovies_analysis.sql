@@ -494,6 +494,15 @@ where exists  (select fc.film_id from film_category fc
 where f.film_id=fc.film_id and category_id=(select c.category_id from category c where fc.category_id=c.category_id and name='horror'));
 
 
+/*--64)Write a query to find the names of all the customers who rented out a film that was
+ also rented out by the customer with customer_id 20.--*/
+ 
+
+ select * from customer
+ where customer_id in (
+ select distinct(customer_id) from rental
+ where inventory_id in (select inventory_id from rental
+ where customer_id=20));
 
 
 
