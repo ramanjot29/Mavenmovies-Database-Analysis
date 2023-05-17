@@ -502,6 +502,22 @@ where f.film_id=fc.film_id and category_id=(select c.category_id from category c
  select distinct(customer_id) from rental
  where inventory_id in (select inventory_id from rental
  where customer_id=20));
+ 
+ /*--65)Write a query to get each customer along with their total payments, number of payments and average payment--*/
+
+with cte as
+(select customer_id,sum(amount) as Total_Payment from payment
+group by customer_id),
+cte2 as
+(select customer_id,count(amount) As No_Of_Payment from payment
+group by customer_id),
+cte3 as
+(select customer_id,avg(amount) As avg_Payment from payment
+group by customer_id)
+select c.first_name,c1.Total_payment,c2.No_of_payment,c3.avg_payment from customer c
+join cte c1 on c.customer_id=c1.customer_id
+join cte2 c2 on c1.customer_id=c2.customer_id
+join cte3 c3 on c2.customer_id=c3.customer_id;
 
 
 
