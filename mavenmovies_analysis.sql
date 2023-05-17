@@ -519,8 +519,43 @@ join cte c1 on c.customer_id=c1.customer_id
 join cte2 c2 on c1.customer_id=c2.customer_id
 join cte3 c3 on c2.customer_id=c3.customer_id;
 
+/*--66)Write a query to create a single row containing the number of films based on the ratings (G, PG and NC17)--*/
 
+SELECT
+    COUNT(CASE WHEN rating = 'G' THEN 1 END) AS count_G,
+    COUNT(CASE WHEN rating = 'PG' THEN 1 END) AS count_PG,
+    COUNT(CASE WHEN rating = 'NC17' THEN 1 END) AS count_NC17
+FROM
+    film;
 
+/*--66)Create a CTE with two named subqueries. The first one gets the actors with last names starting with s. 
+The second one gets all the pg films acted by them. Finally show the film id and title.-*/
+
+with cte as
+(select actor_id from actor where last_name like 's%'),
+cte2 as
+(select film_id,title,rating from film where rating='PG')
+select fa.film_id,c2.title from film_actor fa
+join cte2 c2 on fa.film_id=c2.film_id
+join cte c1 on fa.actor_id=c1.actor_id
+order by fa.film_id ;
+
+/*--67)Add one more subquery to the previous CTE to get the revenues of those movies--*/
+
+with cte as
+(select actor_id from actor where last_name like 's%'),
+cte2 as
+(select film_id,title,rating from film where rating='PG'),
+cte3 as 
+(SELECT inv.film_id,sum(p.amount) as revenue FROM inventory inv
+inner join rental r on r.inventory_id=inv.inventory_id
+inner join payment p on r.rental_id=p.rental_id
+group by inv.film_id)
+select fa.film_id,c2.title,c3.revenue from film_actor fa
+join cte2 c2 on fa.film_id=c2.film_id
+join cte c1 on fa.actor_id=c1.actor_id
+join cte3 c3 on c2.film_id=c3.film_id
+order by fa.film_id ;
 
 
 
