@@ -557,6 +557,13 @@ join cte c1 on fa.actor_id=c1.actor_id
 join cte3 c3 on c2.film_id=c3.film_id
 order by fa.film_id ;
 
+/*--68)Write a query to find the titles of all the films that have never been rented out. --*/
+
+select title from film
+where film_id not in (
+select distinct film_id from inventory
+where inventory_id in (select inventory_id from rental));
+
 
 
 
