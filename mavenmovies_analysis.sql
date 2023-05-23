@@ -6,7 +6,7 @@ from actor;
 /*--2)Display all films whose title length is greater than 10 characters--*/
 
 select * from film
-where length(title)>10;
+where length(title)>10; .
 
 /*--3)Display the first eight characters of the film title--*/
 
