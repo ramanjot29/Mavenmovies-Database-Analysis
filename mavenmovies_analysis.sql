@@ -497,11 +497,12 @@ where f.film_id=fc.film_id and category_id=(select c.category_id from category c
 /*--64)Write a query to find the names of all the customers who rented out a film that was
  also rented out by the customer with customer_id 20.--*/
  
- select first_name,last_name from customer
- where customer_id in (
- select distinct(customer_id) from rental
- where inventory_id in (select inventory_id from rental
- where customer_id=20));
+select first_name,last_name from customer where customer_id in (
+select distinct(rn.customer_id) as cust_id from inventory inv
+join rental rn on inv.inventory_id=rn.inventory_id
+where film_id in (select film_id from inventory
+where inventory_id in (select inventory_id from rental
+where customer_id=20))) and customer_id<>20;
  
  /*--65)Write a query to get each customer along with their total payments, number of payments and average payment--*/
 
