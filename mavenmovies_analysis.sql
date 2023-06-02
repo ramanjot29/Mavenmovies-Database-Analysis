@@ -583,6 +583,33 @@ join cte c1 on fa.actor_id=c1.actor_id
 join cte3 c3 on c2.film_id=c3.film_id
 group by c1.first_name ,c1.last_name order by d desc;
 
+/*--70)Find the films which are rented by both Indian and Pakistani customers. (Hint: You can use CTE’s)--*/
+
+with india as(
+select customer_id,inv.inventory_id,inv.film_id,f.title as title from rental rn
+join customer_list csl on rn.customer_id=csl.id
+join inventory inv  on rn.inventory_id=inv.inventory_id
+join film f on inv.film_id=f.film_id where country='india'),
+Pakistan as(
+select customer_id,inv.inventory_id,inv.film_id,f.title as title from rental rn
+join customer_list csl on rn.customer_id=csl.id
+join inventory inv  on rn.inventory_id=inv.inventory_id 
+join film f on inv.film_id=f.film_id where country='Pakistan')
+select title from India intersect select title from Pakistan;
+
+/*--71)Find the films (if any) which are rented by Indian customers and not rented by Pakistani customers.--*/
+
+with india as(
+select customer_id,inv.inventory_id,inv.film_id,f.title as title from rental rn
+join customer_list csl on rn.customer_id=csl.id
+join inventory inv  on rn.inventory_id=inv.inventory_id
+join film f on inv.film_id=f.film_id where country='india'),
+Pakistan as(
+select customer_id,inv.inventory_id,inv.film_id,f.title as title from rental rn
+join customer_list csl on rn.customer_id=csl.id
+join inventory inv  on rn.inventory_id=inv.inventory_id 
+join film f on inv.film_id=f.film_id where country='Pakistan')
+select title from India except select title from pakistan;
 
 
  
